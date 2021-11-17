@@ -1,14 +1,17 @@
-import express from "express";
+import 'dotenv/config'
+import express from 'express';
+import errorHandler from './middlewares/errorHandlerMiddleware';
+import statusRoute from './routes/statusRouts';
+import usersRoute from './routes/usersRoute';
 
-import usersRoute from "./routes/UsersRoute";
+const app = express();
 
-const app = express()
-const port = process.env.PORT || 3333
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(statusRoute);
+app.use(usersRoute);
+app.use(errorHandler)
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(usersRoute) 
-
-app.listen(port, () => {
-  console.log(`Application listening in http://localhost:${port}`)
-})
+app.listen(3000, () => {
+    console.log('Aplicação executando na porta 3000!');
+});
